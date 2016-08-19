@@ -1,0 +1,7 @@
+dashboard:
+    path: /
+    defaults: { _controller: RoommateBundle:Dashboard:index }
+
+dashboard_delete:
+    path: /delete/{item}
+    defaults: { _controller: RoommateBundle:Dashboard:delete }

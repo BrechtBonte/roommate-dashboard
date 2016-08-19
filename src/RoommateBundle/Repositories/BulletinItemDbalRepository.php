@@ -28,8 +28,10 @@ class BulletinItemDbalRepository
             ->from('bulletin_item', 'item')
             ->join('item', 'roommate', 'owner', 'item.owner_id = owner.id')
             ->andWhere('owner.house_id = :houseId')
+            ->andWhere('item.deleted = :deleted')
             ->orderBy('item.date_added', 'DESC')
             ->setParameter('houseId', (string)$houseId)
+            ->setParameter('deleted', false)
         ;
 
         return $qb->execute()->fetchAll();

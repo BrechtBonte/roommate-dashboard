@@ -10,6 +10,11 @@
             <argument type="service" id="database_connection" />
         </service>
 
+        <service id="roommate.repositories.bulletin_item_repository" class="RoommateBundle\Repositories\BulletinItemRepository">
+            <factory service="doctrine.orm.entity_manager" method="getRepository" />
+            <argument>RoommateBundle\Entity\Bulletin\BulletinItem</argument>
+        </service>
+
     </services>
 
 </container>

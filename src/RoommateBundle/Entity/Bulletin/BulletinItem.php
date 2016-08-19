@@ -9,7 +9,7 @@ use RoommateBundle\Entity\Roommate\Roommate;
 use RoommateBundle\Uuid\BulletinItemId;
 
 /**
- * @ORM\Entity()
+ * @ORM\Entity(repositoryClass="RoommateBundle\Repositories\BulletinItemRepository")
  * @ORM\Table(name="bulletin_item")
  */
 class BulletinItem
@@ -45,6 +45,11 @@ class BulletinItem
      * @ORM\OneToMany(targetEntity="RoommateBundle\Entity\Bulletin\SeenBy", mappedBy="bulletinItem", cascade={"persist"})
      */
     private $seenBy;
+    /**
+     * @var bool
+     * @ORM\Column(type="boolean")
+     */
+    private $deleted;
 
     public function __construct(Roommate $owner, string $title, string $description = null)
     {
@@ -54,6 +59,7 @@ class BulletinItem
         $this->description = $description;
         $this->dateAdded = new \DateTime();
         $this->seenBy = new ArrayCollection();
+        $this->deleted = false;
 
         $this->markAsSeen($owner);
     }
@@ -101,5 +107,10 @@ class BulletinItem
             }
         }
         return false;
+    }
+
+    public function delete()
+    {
+        $this->deleted = true;
     }
 }
