@@ -1,0 +1,13 @@
+
+.header-btn {
+    margin-top: 12px;
+}
+
+textarea.form-control {
+    resize: vertical;
+}
+
+label.required:after {
+    content: '*';
+    margin-left: 2px;
+}

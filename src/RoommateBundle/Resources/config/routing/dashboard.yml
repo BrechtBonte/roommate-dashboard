@@ -5,3 +5,13 @@ dashboard:
 dashboard_delete:
     path: /delete/{item}
     defaults: { _controller: RoommateBundle:Dashboard:delete }
+
+dashboard_add:
+    path: /add
+    methods: [GET]
+    defaults: { _controller: RoommateBundle:Dashboard:add }
+
+dashboard_add_process:
+    path: /add
+    methods: [POST]
+    defaults: { _controller: RoommateBundle:Dashboard:processAdd }
