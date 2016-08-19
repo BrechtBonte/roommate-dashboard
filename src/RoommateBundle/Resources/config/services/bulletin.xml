@@ -4,15 +4,10 @@
            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
            xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
 
-    <imports>
-        <import resource="services/bulletin.xml"/>
-        <import resource="services/roommate.xml"/>
-    </imports>
-
     <services>
 
-        <service id="roommate.provider.roommate_provider" class="RoommateBundle\Provider\RoommateProvider">
-            <argument type="service" id="roommate.repositories.roommate_repository" />
+        <service id="roommate.repositories.bulletin_item_dbal_repository" class="RoommateBundle\Repositories\BulletinItemDbalRepository">
+            <argument type="service" id="database_connection" />
         </service>
 
     </services>

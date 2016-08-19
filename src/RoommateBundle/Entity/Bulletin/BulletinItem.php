@@ -10,7 +10,7 @@ use RoommateBundle\Uuid\BulletinItemId;
 
 /**
  * @ORM\Entity()
- * @ORM\Table(name="bulleting_item")
+ * @ORM\Table(name="bulletin_item")
  */
 class BulletinItem
 {
