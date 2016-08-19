@@ -1,0 +1,12 @@
+login:
+    path: /login
+    defaults:
+        _controller: RoommateBundle:Authentication:login
+
+login_check:
+    path: /login_check
+    defaults:
+        _controller: RoommateBundle:Authentication:loginCheck
+
+logout:
+    path: /logout

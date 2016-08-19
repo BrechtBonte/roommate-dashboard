@@ -1,0 +1,7 @@
+dashboard:
+    path: /
+    defaults: { _controller: RoommateBundle:Dashboard:index }
+
+authentication:
+    prefix: /
+    resource: "@RoommateBundle/Resources/config/routing/authentication.yml"

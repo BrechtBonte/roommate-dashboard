@@ -11,7 +11,7 @@ use RoommateBundle\Entity\EmailAddress;
 use RoommateBundle\Uuid\RoommateId;
 
 /**
- * @ORM\Entity()
+ * @ORM\Entity(repositoryClass="RoommateBundle\Repositories\RoommateRepository")
  * @ORM\Table(name="roommate")
  */
 class Roommate
