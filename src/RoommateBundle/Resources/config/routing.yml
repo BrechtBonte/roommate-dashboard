@@ -10,6 +10,10 @@ profile:
     prefix: /profile
     resource: "@RoommateBundle/Resources/config/routing/profile.yml"
 
+contacts:
+    prefix: /contacts
+    resource: "@RoommateBundle/Resources/config/routing/contact.yml"
+
 authentication:
     prefix: /
     resource: "@RoommateBundle/Resources/config/routing/authentication.yml"

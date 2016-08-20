@@ -1,0 +1,3 @@
+contacts_browse:
+    path: /
+    defaults: { _controller: RoommateBundle:Contact:browse }

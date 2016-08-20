@@ -1,0 +1,49 @@
+{% extends "RoommateBundle::_base.html.twig" %}
+
+{% block pageTitle %}Contacts - {% endblock %}
+
+{% block content %}
+
+    <div class="row">
+        <div class="col-lg-9">
+
+            <a href="#" class="btn btn-primary header-btn pull-right">
+                <i class="fa fa-plus"></i>
+                Add Contact
+            </a>
+
+            <h3><i class="fa fa-angle-right"></i> Contacts</h3>
+
+        </div>
+
+        <div class="col-lg-3 ds">
+
+            <h3>Roommates</h3>
+
+            {% for roommate in roommates %}
+                <div class="desc">
+                    <div class="details">
+                        <h4>{{ roommate.name }}</h4>
+                        <p>
+                            <a href="mailto:{{ roommate.email }}">
+                                <i class="fa fa-envelope-o"></i>
+                                {{ roommate.email }}
+                            </a>
+                        </p>
+                        {% if roommate.phoneNumber %}
+                            <p>
+                                <a href="tel:{{ roommate.phoneNumber }}">
+                                    <i class="fa fa-phone"></i>
+                                    {{ roommate.phoneNumber }}
+                                </a>
+                            </p>
+                        {% endif %}
+                    </div>
+                </div>
+            {% endfor %}
+
+        </div>
+    </div>
+
+
+{% endblock %}

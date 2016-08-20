@@ -19,3 +19,10 @@ label.required:after {
 #calendar h2 {
     color: rgb(121, 121, 121);
 }
+
+.ds .desc:hover {
+    background: transparent;
+}
+.ds .desc:last-child {
+    border: none;
+}
