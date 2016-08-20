@@ -2,16 +2,17 @@
         MAIN SIDEBAR MENU
         *********************************************************************************************************************************************************** -->
 <!--sidebar start-->
+{% set currentRoute = app.request.attributes.get('_route') %}
 <aside>
     <div id="sidebar"  class="nav-collapse ">
         <!-- sidebar menu start-->
         <ul class="sidebar-menu" id="nav-accordion">
 
-            <p class="centered"><a href="profile.html"><img src="/assets/img/ui-sam.jpg" class="img-circle" width="60"></a></p>
+            <p class="centered"><a href="#"><img src="/assets/img/ui-sam.jpg" class="img-circle" width="60"></a></p>
             <h5 class="centered">{{ app.user.displayName }}</h5>
 
             <li class="mt">
-                <a href="{{ path('dashboard') }}">
+                <a href="{{ path('dashboard') }}"{% if currentRoute starts with 'dashboard' %} class="active"{% endif %}>
                     <i class="fa fa-clipboard"></i>
                     <span>Dashboard</span>
                 </a>
@@ -25,7 +26,7 @@
             </li>
 
             <li>
-                <a href="#">
+                <a href="{{ path('cleaning_jobs') }}"{% if currentRoute starts with 'cleaning' %} class="active"{% endif %}>
                     <i class="fa fa-magic"></i>
                     <span>Cleaning</span>
                 </a>

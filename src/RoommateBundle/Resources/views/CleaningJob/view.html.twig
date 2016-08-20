@@ -1,0 +1,76 @@
+{% extends "RoommateBundle::_base.html.twig" %}
+
+{% block pageTitle %}Dashboard - {% endblock %}
+
+{% block css %}
+    <link href="/assets/js/fullcalendar/bootstrap-fullcalendar.css" rel="stylesheet" />
+{% endblock %}
+
+{% block content %}
+
+    <h3><i class="fa fa-angle-right"></i> Cleaning jobs</h3>
+
+    <div class="row mt">
+        <aside class="col-md-1 col-sm-12 mt">
+            <div id="external-events">
+                {% for job in jobs %}
+                    <div class="external-event label label-theme" style="cursor: default; background-color: {{ job.color }}">{{ job.name }}</div>
+                {% endfor %}
+            </div>
+        </aside>
+
+        <div class="col-md-11 col-sm-12 mt">
+            <section class="panel">
+                <div class="panel-body">
+                    <div id="calendar" class="has-toolbar"></div>
+                </div>
+            </section>
+        </div>
+
+    </div>
+
+{% endblock %}
+
+{% block javascript %}
+    <script src="/assets/js/fullcalendar/fullcalendar.min.js"></script>
+    <script type="application/javascript">
+        $(function () {
+
+            var date = new Date({{ startDate|date('U') * 1000 }});
+            var d = date.getDate();
+            var m = date.getMonth();
+            var y = date.getFullYear();
+
+            var jobs = {{ jobs|json_encode|raw }};
+            var events = [];
+
+            jobs.forEach(function (job) {
+
+                for (var i = 0, iMax = 104; i < iMax; i++) {
+                    var assignee = job.assignees[i % job.assignees.length];
+
+                    events.push({
+                        title: assignee,
+                        color: job.color,
+                        start: new Date(y, m, d + (i * 7)),
+                        end: new Date(y, m, d + 6 + (i * 7))
+                    });
+                }
+            });
+
+            $('#calendar').fullCalendar({
+                header: {
+                    left: 'basicWeek,month',
+                    center:   'title',
+                    right:  'today prev,next'
+                },
+                defaultView: 'basicWeek',
+                firstDay: 1,
+                editable: false,
+                droppable: false,
+                events: events
+            });
+
+        });
+    </script>
+{% endblock %}

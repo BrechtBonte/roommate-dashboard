@@ -15,6 +15,7 @@
     <link href="/assets/css/style.css" rel="stylesheet">
     <link href="/assets/css/style-responsive.css" rel="stylesheet">
     <link href="/custom/css/style.css" rel="stylesheet">
+    {% block css %}{% endblock %}
 
     <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
@@ -68,16 +69,7 @@
     <!--common script for all pages-->
     <script src="/assets/js/common-scripts.js"></script>
 
-    <!--script for this page-->
-
-    <script>
-        //custom select box
-
-        /*$(function(){
-            $('select.styled').customSelect();
-        });*/
-
-    </script>
+    {% block javascript %}{% endblock %}
 
 </body>
 </html>

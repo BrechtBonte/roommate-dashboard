@@ -2,6 +2,10 @@ dashboard_items:
     prefix: /
     resource: "@RoommateBundle/Resources/config/routing/dashboard.yml"
 
+cleaning:
+    prefix: /cleaning
+    resource: "@RoommateBundle/Resources/config/routing/cleaning.yml"
+
 authentication:
     prefix: /
     resource: "@RoommateBundle/Resources/config/routing/authentication.yml"

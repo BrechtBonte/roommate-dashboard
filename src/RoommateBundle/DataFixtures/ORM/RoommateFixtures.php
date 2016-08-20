@@ -23,13 +23,16 @@ class RoommateFixtures extends AbstractFixture
 
         $users = $this->createRoommates($house, $manager, $factory);
 
-        foreach (['Keuken', 'Sanitair', 'Living', 'Overige'] as $i => $jobName) {
-            $job = new CleaningJob($jobName);
+        $cleaning = ['Keuken' => '#ff6c60', 'Living' => '#8075c4', 'Overige' => '#a9d86e', 'Sanitair' => '#41cac0'];
+        $i = 0;
+        foreach ($cleaning as $jobName => $color) {
+            $job = new CleaningJob($house, $jobName, $color);
             $manager->persist($job);
 
             foreach ($users as $u => $user) {
                 $user->addCleaningJobIndex($job, ($u + $i) % count($users));
             }
+            $i++;
         }
 
         $manager->flush();
@@ -52,7 +55,7 @@ class RoommateFixtures extends AbstractFixture
         $this->setReference('roommate-1', $brecht);
         $users[] = $brecht;
 
-        foreach (['alanah', 'arne', 'tess', 'valerie'] as $i => $name) {
+        foreach (['alannah', 'arne', 'tess', 'valerie'] as $i => $name) {
             $roommate = new Roommate(
                 $house,
                 new EmailAddress($name . '@gmail.com'),

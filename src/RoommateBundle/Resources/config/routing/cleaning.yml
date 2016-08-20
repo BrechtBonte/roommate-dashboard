@@ -1,0 +1,3 @@
+cleaning_jobs:
+    path: /
+    defaults: { _controller: RoommateBundle:CleaningJob:view }

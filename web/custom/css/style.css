@@ -15,3 +15,7 @@ label.required:after {
 .showback.not-seen {
     background-color: #d9edf7;
 }
+
+#calendar h2 {
+    color: rgb(121, 121, 121);
+}
