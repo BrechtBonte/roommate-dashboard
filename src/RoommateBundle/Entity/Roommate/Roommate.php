@@ -95,6 +95,11 @@ class Roommate
         return $this->password;
     }
 
+    public function setPassword(string $password)
+    {
+        $this->password = $password;
+    }
+
     public function getName()
     {
         return $this->name;

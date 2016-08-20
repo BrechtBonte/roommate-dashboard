@@ -1,0 +1,9 @@
+profile_edit:
+    path: /
+    methods: [GET]
+    defaults: { _controller: RoommateBundle:Profile:edit }
+
+profile_edit_process:
+    path: /
+    methods: [POST]
+    defaults: { _controller: RoommateBundle:Profile:processEdit }

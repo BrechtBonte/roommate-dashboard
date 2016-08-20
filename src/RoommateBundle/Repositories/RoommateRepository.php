@@ -3,7 +3,11 @@
 namespace RoommateBundle\Repositories;
 
 use Doctrine\ORM\EntityRepository;
+use RoommateBundle\Entity\Roommate\Roommate;
 
+/**
+ * @method Roommate find($id, $lockMode = null, $lockVersion = null)
+ */
 class RoommateRepository extends EntityRepository
 {
     /** @return array | null */

@@ -1,0 +1,95 @@
+{% extends "RoommateBundle::_base.html.twig" %}
+
+{% block pageTitle %}Edit profile - {% endblock %}
+
+{% block content %}
+
+    <div class="row mt">
+        <div class="col-lg-12">
+            <div class="form-panel">
+
+                <h4 class="mb"><i class="fa fa-angle-right"></i> Update profile</h4>
+
+                {% for flashMessage in app.session.flashbag.get('success') %}
+                    <div class="alert alert-success">
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        {{ flashMessage }}
+                    </div>
+                {% endfor %}
+
+                {{ form_start(form, {'attr': {'novalidate':'novalidate'}}) }}
+
+                <div class="form-group{% if form_errors(form.name) %} has-error{% endif %}">
+                    {{ form_label(form.name) }}
+                    <div class="col-sm-10">
+                        {{ form_widget(form.name) }}
+                        {{ form_errors(form.name) }}
+                    </div>
+                </div>
+
+                <div class="form-group{% if form_errors(form.email) %} has-error{% endif %}">
+                    {{ form_label(form.email) }}
+                    <div class="col-sm-10">
+                        {{ form_widget(form.email) }}
+                        {{ form_errors(form.email) }}
+                    </div>
+                </div>
+
+                <div class="form-group{% if form_errors(form.phoneNumber) %} has-error{% endif %}">
+                    {{ form_label(form.phoneNumber) }}
+                    <div class="col-sm-10">
+                        {{ form_widget(form.phoneNumber) }}
+                        {{ form_errors(form.phoneNumber) }}
+                    </div>
+                </div>
+
+                <hr />
+
+                <div class="form-group{% if form_errors(form.oldPassword) %} has-error{% endif %}">
+                    {{ form_label(form.oldPassword) }}
+                    <div class="col-sm-10">
+                        {{ form_widget(form.oldPassword) }}
+                        {{ form_errors(form.oldPassword) }}
+                    </div>
+                </div>
+
+                <div class="form-group{% if form_errors(form.password.first) %} has-error{% endif %}">
+                    {{ form_label(form.password.first) }}
+                    <div class="col-sm-10">
+                        {{ form_widget(form.password.first) }}
+                        {{ form_errors(form.password.first) }}
+                    </div>
+                </div>
+
+                <div class="form-group{% if form_errors(form.password.second) %} has-error{% endif %}">
+                    {{ form_label(form.password.second) }}
+                    <div class="col-sm-10">
+                        {{ form_widget(form.password.second) }}
+                        {{ form_errors(form.password.second) }}
+                    </div>
+                </div>
+
+                <hr />
+
+                <div class="form-group">
+                    <div class="col-sm-10 col-sm-offset-2">
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fa fa-floppy-o"></i>
+                            Save
+                        </button>
+
+                        <a href="{{ path('dashboard') }}" class="btn btn-danger">
+                            <i class="fa fa-times"></i>
+                            Cancel
+                        </a>
+                    </div>
+                </div>
+
+                {{ form_widget(form._token) }}
+                {{ form_end(form, {'render_rest': false}) }}
+            </div>
+        </div><!-- col-lg-12-->
+    </div>
+
+{% endblock %}
+

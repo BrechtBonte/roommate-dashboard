@@ -6,6 +6,10 @@ cleaning:
     prefix: /cleaning
     resource: "@RoommateBundle/Resources/config/routing/cleaning.yml"
 
+profile:
+    prefix: /profile
+    resource: "@RoommateBundle/Resources/config/routing/profile.yml"
+
 authentication:
     prefix: /
     resource: "@RoommateBundle/Resources/config/routing/authentication.yml"
