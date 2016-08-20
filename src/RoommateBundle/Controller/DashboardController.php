@@ -15,7 +15,8 @@ class DashboardController extends Controller
     public function indexAction()
     {
         $items = $this->get('roommate.repositories.bulletin_item_dbal_repository')->fetchItemsForHouse(
-            $this->getCurrentHouseId()
+            $this->getCurrentHouseId(),
+            $this->getCurrentRoommateId()
         );
 
         return $this->render('RoommateBundle:Dashboard:view.html.twig', [
@@ -33,6 +34,17 @@ class DashboardController extends Controller
         $item->delete();
         $manager = $this->getDoctrine()->getManager();
         $manager->flush();
+
+        return $this->redirectToRoute('dashboard');
+    }
+
+    public function acknowledgeAction($item)
+    {
+        $item = $this->getCurrentItem($item);
+
+        $roommate = $this->get('roommate.repositories.roommate_repository')->find($this->getCurrentRoommateId());
+        $item->markAsSeen($roommate);
+        $this->getDoctrine()->getManager()->flush();
 
         return $this->redirectToRoute('dashboard');
     }

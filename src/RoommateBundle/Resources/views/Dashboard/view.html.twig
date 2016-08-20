@@ -14,7 +14,7 @@
     <div class="row mt">
         {% for item in items %}
             <div class="col-xl-3 col-md-4 col-sm-6 mb">
-                <div class="showback">
+                <div class="showback{% if not item.seen %} not-seen{% endif %}">
                     <div class="row">
                         <div class="col-sm-12">
                             {% if app.user.roommateId == item.owner_id %}
@@ -24,6 +24,10 @@
 
                             {% if item.description %}
                                 <p>{{ item.description }}</p>
+                            {% endif %}
+
+                            {% if not item.seen %}
+                                <a href="{{ path('dashboard_acknowledge', {'item': item.id}) }}" class="btn btn-info btn-xs">Acknowledge</a>
                             {% endif %}
 
                             <div class="row">

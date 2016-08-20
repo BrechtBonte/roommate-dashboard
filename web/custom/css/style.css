@@ -11,3 +11,7 @@ label.required:after {
     content: '*';
     margin-left: 2px;
 }
+
+.showback.not-seen {
+    background-color: #d9edf7;
+}

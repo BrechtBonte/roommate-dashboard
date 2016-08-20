@@ -6,6 +6,10 @@ dashboard_delete:
     path: /delete/{item}
     defaults: { _controller: RoommateBundle:Dashboard:delete }
 
+dashboard_acknowledge:
+    path: /acknowledge/{item}
+    defaults: { _controller: RoommateBundle:Dashboard:acknowledge }
+
 dashboard_add:
     path: /add
     methods: [GET]
