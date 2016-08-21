@@ -7,12 +7,19 @@
     <div class="row">
         <div class="col-lg-9 js-contact-container">
 
-            <a href="#" class="btn btn-primary header-btn pull-right">
+            <a href="{{ path('contacts_add') }}" class="btn btn-primary header-btn pull-right">
                 <i class="fa fa-plus"></i>
                 Add Contact
             </a>
 
             <h3><i class="fa fa-angle-right"></i> Contacts</h3>
+
+            {% for flashMessage in app.session.flashbag.get('success') %}
+                <div class="alert alert-success">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    {{ flashMessage }}
+                </div>
+            {% endfor %}
 
             <div class="row">
                 <div class="col-sm-12">
@@ -31,7 +38,13 @@
                     {% for contact in contacts %}
                         <div class="col-lg-4 col-md-6 col-xs-12 js-contact">
                             <div class="showback">
-                                <h4 class="js-search-term">{{ contact.name }}</h4>
+                                <a href="{{ path('contacts_delete', {'contact': contact.id}) }}" class="close">x</a>
+
+                                <h4 class="js-search-term">
+                                    <a href="{{ path('contacts_edit', {'contact': contact.id}) }}">
+                                        {{ contact.name }}
+                                    </a>
+                                </h4>
                                 {% if contact.nickname %}
                                     <h5 class="js-search-term">{{ contact.nickname }}</h5>
                                 {% endif %}

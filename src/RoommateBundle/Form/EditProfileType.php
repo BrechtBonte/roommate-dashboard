@@ -39,7 +39,9 @@ class EditProfileType extends AbstractType
             new NotBlank(),
             new Email(),
         ]]);
-        $builder->add('phoneNumber', TextType::class, ['label' => 'Phone number', 'required' => false]);
+        $builder->add('phoneNumber', TextType::class, ['label' => 'Phone number', 'required' => false, 'attr' => [
+            'type' => 'tel',
+        ]]);
         $builder->add('oldPassword', PasswordType::class, ['required' => false, 'constraints' => [
             new UserPassword(['groups' => 'Password']),
         ]]);

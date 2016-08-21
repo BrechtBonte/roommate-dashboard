@@ -1,3 +1,27 @@
 contacts_browse:
     path: /
     defaults: { _controller: RoommateBundle:Contact:browse }
+
+contacts_add:
+    path: /add
+    methods: [GET]
+    defaults: { _controller: RoommateBundle:Contact:add }
+
+contacts_add_process:
+    path: /add
+    methods: [POST]
+    defaults: { _controller: RoommateBundle:Contact:processAdd }
+
+contacts_edit:
+    path: /edit/{contact}
+    methods: [GET]
+    defaults: { _controller: RoommateBundle:Contact:edit }
+
+contacts_edit_process:
+    path: /edit/{contact}
+    methods: [POST]
+    defaults: { _controller: RoommateBundle:Contact:processEdit }
+
+contacts_delete:
+    path: /delete/{contact}
+    defaults: { _controller: RoommateBundle:Contact:delete }

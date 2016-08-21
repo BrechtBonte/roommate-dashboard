@@ -24,7 +24,7 @@ class DashboardController extends Controller
         ]);
     }
 
-    public function deleteAction($item)
+    public function deleteAction($item, Request $request)
     {
         $item = $this->getCurrentItem($item);
         if (!$item->getOwner()->getId()->equals($this->getCurrentRoommateId())) {
@@ -34,6 +34,11 @@ class DashboardController extends Controller
         $item->delete();
         $manager = $this->getDoctrine()->getManager();
         $manager->flush();
+
+        $request->getSession()->getFlashBag()->add(
+            'success',
+            'Contact deleted'
+        );
 
         return $this->redirectToRoute('dashboard');
     }

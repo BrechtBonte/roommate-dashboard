@@ -30,4 +30,9 @@ class EmailAddress
     {
         return $this->address;
     }
+
+    public function __toString()
+    {
+        return (string)$this->address;
+    }
 }

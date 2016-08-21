@@ -43,6 +43,11 @@ class Contact
      * @ORM\Column(type="string", name="phone_number", nullable=true)
      */
     private $phoneNumber;
+    /**
+     * @var bool
+     * @ORM\Column(type="boolean")
+     */
+    private $deleted;
 
     public function __construct(
         House $house,
@@ -57,6 +62,7 @@ class Contact
         $this->nickname = $nickname;
         $this->email = $email;
         $this->phoneNumber = $phoneNumber;
+        $this->deleted = false;
     }
 
     public function getId() : ContactId
@@ -107,5 +113,10 @@ class Contact
     public function setPhoneNumber(string $phoneNumber = null)
     {
         $this->phoneNumber = $phoneNumber;
+    }
+
+    public function delete()
+    {
+        $this->deleted = true;
     }
 }

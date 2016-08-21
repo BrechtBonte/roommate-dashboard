@@ -1,0 +1,84 @@
+{% extends "RoommateBundle::_base.html.twig" %}
+
+{% block pageTitle %}{% if contact is defined %}Edit "{{ contact }}"{% else %}Add contact{% endif %} - {% endblock %}
+
+{% block content %}
+
+<div class="row mt">
+    <div class="col-lg-12">
+
+        <a href="{{ path('contacts_browse') }}" class="btn btn-default header-btn pull-right">
+            Back to overview
+        </a>
+
+        <h3><i class="fa fa-angle-right"></i> Contacts</h3>
+
+        <div class="form-panel">
+
+            <h4 class="mb"><i class="fa fa-angle-right"></i> {% if contact is defined %}Edit "{{ contact }}"{% else %}Add contact{% endif %}</h4>
+
+            {% for flashMessage in app.session.flashbag.get('success') %}
+                <div class="alert alert-success">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    {{ flashMessage }}
+                </div>
+            {% endfor %}
+
+            {{ form_start(form, {'attr': {'novalidate':'novalidate'}}) }}
+
+            <div class="form-group{% if form_errors(form.name) %} has-error{% endif %}">
+                {{ form_label(form.name) }}
+                <div class="col-sm-10">
+                    {{ form_widget(form.name) }}
+                    {{ form_errors(form.name) }}
+                </div>
+            </div>
+
+            <div class="form-group{% if form_errors(form.nickname) %} has-error{% endif %}">
+                {{ form_label(form.nickname) }}
+                <div class="col-sm-10">
+                    {{ form_widget(form.nickname) }}
+                    {{ form_errors(form.nickname) }}
+                </div>
+            </div>
+
+            <div class="form-group{% if form_errors(form.email) %} has-error{% endif %}">
+                {{ form_label(form.email) }}
+                <div class="col-sm-10">
+                    {{ form_widget(form.email) }}
+                    {{ form_errors(form.email) }}
+                </div>
+            </div>
+
+            <div class="form-group{% if form_errors(form.phoneNumber) %} has-error{% endif %}">
+                {{ form_label(form.phoneNumber) }}
+                <div class="col-sm-10">
+                    {{ form_widget(form.phoneNumber) }}
+                    {{ form_errors(form.phoneNumber) }}
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-sm-10 col-sm-offset-2">
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fa fa-floppy-o"></i>
+                        Save
+                    </button>
+
+                    {% if not contact is defined %}
+                        <a href="{{ path('contacts_browse') }}" class="btn btn-danger">
+                            <i class="fa fa-times"></i>
+                            Cancel
+                        </a>
+                    {% endif %}
+                </div>
+            </div>
+
+            {{ form_widget(form._token) }}
+            {{ form_end(form, {'render_rest': false}) }}
+        </div>
+    </div><!-- col-lg-12-->
+</div>
+
+{% endblock %}
+
