@@ -38,7 +38,7 @@
                     {% for contact in contacts %}
                         <div class="col-lg-4 col-md-6 col-xs-12 js-contact">
                             <div class="showback">
-                                <a href="{{ path('contacts_delete', {'contact': contact.id}) }}" class="close">x</a>
+                                <button role="button" data-url="{{ path('contacts_delete', {'contact': contact.id}) }}" data-name="{{ contact.name }}" class="close" data-toggle="modal" data-target="#delete-confirm-modal">x</button>
 
                                 <h4 class="js-search-term">
                                     <a href="{{ path('contacts_edit', {'contact': contact.id}) }}">
@@ -102,6 +102,8 @@
         </div>
     </div>
 
+    {% include 'RoommateBundle::_confirm_modal.html.twig' %}
+
 {% endblock %}
 
 {% block javascript %}
@@ -127,5 +129,8 @@
             });
 
         });
+    </script>
+    <script type="application/javascript">
+        {% include 'RoommateBundle::_confirm_modal.js.twig' %}
     </script>
 {% endblock %}

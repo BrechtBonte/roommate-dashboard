@@ -1,0 +1,12 @@
+$(function () {
+
+    var confirmModal = $('#delete-confirm-modal'),
+        confirmBtn = confirmModal.find('.js-confirm-btn'),
+        nameContainer = confirmModal.find('.js-confirm-name');
+
+    confirmModal.on('shown.bs.modal', function (e) {
+        confirmBtn.attr('href', $(e.relatedTarget).data('url'));
+        nameContainer.html($(e.relatedTarget).data('name'));
+    });
+
+});

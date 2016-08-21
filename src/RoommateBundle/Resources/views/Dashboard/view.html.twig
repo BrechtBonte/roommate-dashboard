@@ -25,7 +25,7 @@
                     <div class="row">
                         <div class="col-sm-12">
                             {% if app.user.roommateId == item.owner_id %}
-                                <a href="{{ path('dashboard_delete', {'item': item.id}) }}" class="close">x</a>
+                                <button type="button" data-url="{{ path('dashboard_delete', {'item': item.id}) }}" data-name="{{ item.title }}" class="close">x</button>
                             {% endif %}
                             <h4>{{ item.title }}</h4>
 
@@ -52,4 +52,13 @@
         {% endfor %}
     </div>
 
+    {% include 'RoommateBundle::_confirm_modal.html.twig' %}
+
+{% endblock %}
+
+{% block javascript %}
+    {{ parent() }}
+    <script type="application/javascript">
+        {% include 'RoommateBundle::_confirm_modal.js.twig' %}
+    </script>
 {% endblock %}
