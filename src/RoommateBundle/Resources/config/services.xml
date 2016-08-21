@@ -6,6 +6,7 @@
 
     <imports>
         <import resource="services/cleaning.xml"/>
+        <import resource="services/contact.xml"/>
         <import resource="services/bulletin.xml"/>
         <import resource="services/roommate.xml"/>
     </imports>

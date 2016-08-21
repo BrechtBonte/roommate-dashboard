@@ -7,8 +7,8 @@ use RoommateBundle\Entity\EmailAddress;
 use RoommateBundle\Uuid\ContactId;
 
 /**
- * @ORM\Entity()
- * @ORM\Table()
+ * @ORM\Entity(repositoryClass="RoommateBundle\Repositories\ContactRepository")
+ * @ORM\Table(name="contact")
  */
 class Contact
 {

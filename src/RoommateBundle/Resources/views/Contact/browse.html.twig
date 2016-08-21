@@ -5,7 +5,7 @@
 {% block content %}
 
     <div class="row">
-        <div class="col-lg-9">
+        <div class="col-lg-9 js-contact-container">
 
             <a href="#" class="btn btn-primary header-btn pull-right">
                 <i class="fa fa-plus"></i>
@@ -13,6 +13,50 @@
             </a>
 
             <h3><i class="fa fa-angle-right"></i> Contacts</h3>
+
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="showback">
+                        <input id="search" type="search" placeholder="Search" class="form-control round-form" autocomplete="off" />
+                    </div>
+                </div>
+            </div>
+
+            {% for startLetter, contacts in groupedContacts %}
+                <div class="row js-contact-row">
+                    <div class="col-sm-12">
+                        <h4><i class="fa fa-angle-right"></i> {{ startLetter }}</h4>
+                    </div>
+
+                    {% for contact in contacts %}
+                        <div class="col-lg-4 col-md-6 col-xs-12 js-contact">
+                            <div class="showback">
+                                <h4 class="js-search-term">{{ contact.name }}</h4>
+                                {% if contact.nickname %}
+                                    <h5 class="js-search-term">{{ contact.nickname }}</h5>
+                                {% endif %}
+                                {% if contact.email %}
+                                    <p>
+                                        <a href="mailto:{{ contact.email }}">
+                                            <i class="fa fa-envelope-o"></i>
+                                            {{ contact.email }}
+                                        </a>
+                                    </p>
+                                {% endif %}
+                                {% if contact.phoneNumber %}
+                                    <p>
+                                        <a href="tel:{{ contact.phoneNumber }}">
+                                            <i class="fa fa-phone"></i>
+                                            {{ contact.phoneNumber }}
+                                        </a>
+                                    </p>
+                                {% endif %}
+                            </div>
+                        </div>
+                    {% endfor %}
+
+                </div>
+            {% endfor %}
 
         </div>
 
@@ -45,5 +89,30 @@
         </div>
     </div>
 
+{% endblock %}
 
+{% block javascript %}
+    {{ parent() }}
+    <script src="{{ asset('assets/libs/jquery.searchable-1.1.0.min.js') }}"></script>
+    <script type="application/javascript">
+        $(function () {
+
+            $('.js-contact-container').searchable({
+                selector: '.js-contact',
+                childSelector: '.js-search-term',
+                show: function (contact) {
+                    contact.show();
+                    contact.closest('.js-contact-row').show();
+                },
+                hide: function (contact) {
+                    contact.hide();
+                    var row = contact.closest('.js-contact-row');
+                    if (row.find('.js-contact:visible').length === 0) {
+                        row.hide();
+                    }
+                }
+            });
+
+        });
+    </script>
 {% endblock %}
