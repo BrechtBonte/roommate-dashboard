@@ -4,6 +4,15 @@
 
 {% block css %}
     <link href="/assets/js/fullcalendar/bootstrap-fullcalendar.css" rel="stylesheet" />
+    <style>
+        /** Little hack */
+        .fc-header {
+            margin-bottom: 0;
+        }
+        .fc-content {
+            margin-top: 0;
+        }
+    </style>
 {% endblock %}
 
 {% block content %}
