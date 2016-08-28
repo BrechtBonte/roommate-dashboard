@@ -1,0 +1,17 @@
+events_browse:
+    path: /
+    defaults: { _controller: RoommateBundle:Event:view }
+
+events_add:
+    path: /add
+    methods: [GET]
+    defaults: { _controller: RoommateBundle:Event:add }
+
+events_add_process:
+    path: /add
+    methods: [POST]
+    defaults: { _controller: RoommateBundle:Event:processAdd }
+
+events_delete:
+    path: /delete/{event}
+    defaults: { _controller: RoommateBundle:Event:delete }

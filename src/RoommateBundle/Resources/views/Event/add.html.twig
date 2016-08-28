@@ -1,0 +1,131 @@
+{% extends "RoommateBundle::_base.html.twig" %}
+
+{% block pageTitle %}Add event - {% endblock %}
+
+{% block content %}
+
+    <div class="row">
+        <div class="col-sm-10">
+            <h3><i class="fa fa-angle-right"></i> Events</h3>
+        </div>
+        <div class="col-sm-2">
+            <a href="{{ path('events_browse') }}" class="btn btn-default header-btn pull-right">
+                Back to overview
+            </a>
+        </div>
+    </div>
+
+    <div class="row mt">
+        <div class="col-lg-12">
+            <div class="form-panel">
+                <h4 class="mb"><i class="fa fa-angle-right"></i> Add new event</h4>
+
+                {{ form_start(form, {'attr': {'novalidate':'novalidate'}}) }}
+
+                <div class="form-group{% if form_errors(form.name) %} has-error{% endif %}">
+                    {{ form_label(form.name) }}
+                    <div class="col-sm-10">
+                        {{ form_widget(form.name) }}
+                        {{ form_errors(form.name) }}
+                    </div>
+                </div>
+
+                <div class="form-group{% if form_errors(form.type) %} has-error{% endif %}">
+                    {{ form_label(form.type) }}
+                    <div class="col-sm-10">
+                        {{ form_widget(form.type, {'attr': {'class': 'js-type-input'}}) }}
+                        {{ form_errors(form.type) }}
+                    </div>
+                </div>
+
+                <div class="form-group js-type-dependent js-type-full-day js-type-day-timed{% if form_errors(form.single_date) %} has-error{% endif %}" style="display:none">
+                    {{ form_label(form.single_date) }}
+                    <div class="col-sm-10">
+                        {{ form_widget(form.single_date, {'attr': {'class': 'js-datepicker'}}) }}
+                        {{ form_errors(form.single_date) }}
+                    </div>
+                </div>
+
+                <div class="form-group js-type-dependent js-type-day-timed{% if form_errors(form.time_start) %} has-error{% endif %}" style="display:none">
+                    {{ form_label(form.time_start) }}
+                    <div class="col-sm-10">
+                        {{ form_widget(form.time_start) }}
+                        {{ form_errors(form.time_start) }}
+                    </div>
+                </div>
+
+                <div class="form-group js-type-dependent js-type-day-timed{% if form_errors(form.time_end) %} has-error{% endif %}" style="display:none">
+                    {{ form_label(form.time_end) }}
+                    <div class="col-sm-10">
+                        {{ form_widget(form.time_end) }}
+                        {{ form_errors(form.time_end) }}
+                    </div>
+                </div>
+
+                <div class="form-group js-type-dependent js-type-multiple-days{% if form_errors(form.date_start) %} has-error{% endif %}" style="display:none">
+                    {{ form_label(form.date_start) }}
+                    <div class="col-sm-10">
+                        {{ form_widget(form.date_start, {'attr': {'class': 'js-datepicker'}}) }}
+                        {{ form_errors(form.date_start) }}
+                    </div>
+                </div>
+
+                <div class="form-group js-type-dependent js-type-multiple-days{% if form_errors(form.date_end) %} has-error{% endif %}" style="display:none">
+                    {{ form_label(form.date_end) }}
+                    <div class="col-sm-10">
+                        {{ form_widget(form.date_end, {'attr': {'class': 'js-datepicker'}}) }}
+                        {{ form_errors(form.date_end) }}
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-sm-10 col-sm-offset-2">
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fa fa-floppy-o"></i>
+                            Save
+                        </button>
+
+                        <a href="{{ path('events_browse') }}" class="btn btn-danger">
+                            <i class="fa fa-times"></i>
+                            Cancel
+                        </a>
+                    </div>
+                </div>
+
+                {{ form_widget(form._token) }}
+                {{ form_end(form, {'render_rest': false}) }}
+            </div>
+        </div><!-- col-lg-12-->
+    </div>
+
+{% endblock %}
+
+{% block css %}
+    {{ parent() }}
+    <link rel="stylesheet" href="/assets/css/bootstrap-datepicker3.min.css">
+{% endblock %}
+
+{% block javascript %}
+    {{ parent() }}
+    <script src="/assets/libs/bootstrap-datepicker.min.js"></script>
+    <script type="application/javascript">
+        $(function () {
+            $('.js-datepicker').datepicker({
+                'format': 'yyyy-mm-dd'
+            });
+
+            var typeInput = $('.js-type-input input'),
+                typeDependents = $('.js-type-dependent');
+
+            typeInput.on('change', function () {
+                typeDependents.hide();
+                $('.js-type-' + $(this).val()).show();
+            });
+
+            var currentOption = $('.js-type-input input:checked');
+            if (currentOption.length) {
+                $('.js-type-' + currentOption.val()).show();
+            }
+        });
+    </script>
+{% endblock %}

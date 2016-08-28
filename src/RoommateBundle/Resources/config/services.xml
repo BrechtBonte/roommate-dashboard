@@ -9,6 +9,7 @@
         <import resource="services/contact.xml"/>
         <import resource="services/bulletin.xml"/>
         <import resource="services/roommate.xml"/>
+        <import resource="services/event.xml"/>
     </imports>
 
     <services>

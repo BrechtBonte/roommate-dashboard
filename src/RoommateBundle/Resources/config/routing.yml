@@ -14,6 +14,10 @@ contacts:
     prefix: /contacts
     resource: "@RoommateBundle/Resources/config/routing/contact.yml"
 
+events:
+    prefix: /events
+    resource: "@RoommateBundle/Resources/config/routing/events.yml"
+
 authentication:
     prefix: /
     resource: "@RoommateBundle/Resources/config/routing/authentication.yml"
