@@ -1,0 +1,210 @@
+{% extends "RoommateBundle::_base.html.twig" %}
+
+{% block pageTitle %}Shopping list - {% endblock %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-lg-9">
+
+            {% for flashMessage in app.session.flashbag.get('error') %}
+                <div class="alert alert-danger">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    {{ flashMessage }}
+                </div>
+            {% endfor %}
+
+            {% for flashMessage in app.session.flashbag.get('success') %}
+                <div class="alert alert-success">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    {{ flashMessage }}
+                </div>
+            {% endfor %}
+
+            <div class="row mt">
+                <div class="col-md-12">
+                    <section class="task-panel tasks-widget">
+                        <div class="panel-heading">
+                            <div class="pull-left"><h5><i class="fa fa-tasks"></i> Shopping list</h5></div>
+                            <div class="pull-right">
+                                <button type="button" class="btn btn-primary btn-xs" data-toggle="modal" data-target="#add-confirm-modal">
+                                    <i class="fa fa-plus"></i>
+                                    Add item
+                                </button>
+                            </div>
+                            <br>
+                        </div>
+                        <div class="panel-body">
+                            <form action="{{ path('groceries_buy') }}" method="post">
+                                <div class="task-content">
+
+                                    <ul class="task-list">
+                                        {% for item in items %}
+                                            <li class="js-item-checkbox">
+                                                <div class="task-checkbox">
+                                                    <input type="checkbox" class="list-child" name="items[]" value="{{ item.id }}"  />
+                                                </div>
+                                                <div class="task-title">
+                                                    <span class="task-title-sp">{{ item.name }}</span>
+                                                    <div class="pull-right hidden-phone">
+                                                        <button type="button" data-url="{{ path('groceries_edit', {'item': item.id}) }}" data-name="{{ item.name }}" class="btn btn-primary btn-xs" data-toggle="modal" data-target="#edit-confirm-modal"><i class="fa fa-pencil"></i></button>
+                                                        <button type="button" data-url="{{ path('groceries_delete', {'item': item.id}) }}" data-name="{{ item.name }}" class="btn btn-danger btn-xs" data-toggle="modal" data-target="#delete-confirm-modal"><i class="fa fa-trash-o "></i></button>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                        {% endfor %}
+                                    </ul>
+                                </div>
+
+                                <div class="add-task-row">
+                                    <div class="row">
+                                        <div class="col-sm-9">
+                                            <input type="text" name="name" class="form-control" placeholder="Description" />
+                                        </div>
+                                        <div class="col-sm-3">
+                                            <button type="submit" class="btn btn-success btn-sm pull-right">Mark as bought</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </section>
+                </div><!-- /col-md-12-->
+            </div>
+
+        </div>
+
+        <div class="col-lg-3 ds">
+
+            <h3>Recently bought</h3>
+
+            {% for list in lists %}
+                <div class="desc">
+                    <div class="details js-item">
+                        {% if list.name %}
+                            <h4>{{ list.name }}</h4>
+                        {% endif %}
+                        <h5>{{ list.date_added|ago }}</h5>
+                        <h6>By {{ list.added_by }}</h6>
+
+                        <a href="#" class="js-item-count">{{ list.items|length }} items</a>
+                        <ul class="js-items-container" style="display: none">
+                            {% for item in list.items %}
+                                <li>{{ item }}</li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+            {% endfor %}
+
+        </div>
+    </div>
+
+    {% include 'RoommateBundle::_confirm_modal.html.twig' %}
+
+    <div class="modal fade" id="edit-confirm-modal" tabindex="-1" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form method="post" class="form-horizontal">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        <h4 class="modal-title" id="editLabel">Edit item</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label for="edit-input" class="col-sm-3">Name</label>
+                            <div class="col-sm-9">
+                                <input type="text" name="name" class="form-control" id="edit-input" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Save</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="add-confirm-modal" tabindex="-1" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form action="{{ path('groceries_add') }}" class="form-horizontal" method="post">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        <h4 class="modal-title" id="addLabel">Add new item</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label for="add-input" class="col-sm-3">Name</label>
+                            <div class="col-sm-9">
+                                <input type="text" name="name" class="form-control" id="add-input" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Save</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block css %}
+    {{ parent() }}
+    <link rel="stylesheet" href="/assets/css/to-do.css" />
+{% endblock %}
+
+{% block javascript %}
+    {{ parent() }}
+    <script type="application/javascript">
+        {% include 'RoommateBundle::_confirm_modal.js.twig' %}
+    </script>
+    <script type="application/javascript">
+        $(function () {
+            $('.js-item-count').on('click', function (e) {
+                e.preventDefault();
+                $(this).closest('.js-item').find('.js-items-container').toggle();
+            });
+
+            $('.js-item-checkbox').on('click', function (e) {
+                e.preventDefault();
+                var checkbox = $(this).find('input[type=checkbox]');
+                checkbox.prop('checked', !checkbox.prop('checked'));
+            });
+
+            $('.js-item-checkbox input[type=checkbox]').on('click', function (e) {
+                e.stopPropagation();
+            });
+        });
+    </script>
+    <script type="application/javascript">
+        $(function () {
+
+            var editModal = $('#edit-confirm-modal'),
+                editForm = editModal.find('form'),
+                formGroup = editForm.find('.form-group'),
+                nameInput = formGroup.find('input');
+
+            editModal.on('shown.bs.modal', function (e) {
+                editForm.attr('action', $(e.relatedTarget).data('url'));
+                nameInput.val($(e.relatedTarget).data('name'));
+                nameInput.focus();
+            });
+
+            editForm.on('submit', function (e) {
+                if (!nameInput.val()) {
+                    formGroup.addClass('has-error');
+                    e.preventDefault();
+                }
+            });
+
+            $('#add-confirm-modal').on('shown.bs.modal', function () {
+                $(this).find('input:first').focus();
+            });
+        });
+    </script>
+{% endblock %}

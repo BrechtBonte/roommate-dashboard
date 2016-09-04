@@ -8,8 +8,9 @@
         <import resource="services/cleaning.xml"/>
         <import resource="services/contact.xml"/>
         <import resource="services/bulletin.xml"/>
-        <import resource="services/roommate.xml"/>
         <import resource="services/event.xml"/>
+        <import resource="services/groceries.xml"/>
+        <import resource="services/roommate.xml"/>
     </imports>
 
     <services>

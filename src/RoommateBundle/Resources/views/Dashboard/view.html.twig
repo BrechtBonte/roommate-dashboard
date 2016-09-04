@@ -25,7 +25,7 @@
                     <div class="row">
                         <div class="col-sm-12">
                             {% if app.user.roommateId == item.owner_id %}
-                                <button type="button" data-url="{{ path('dashboard_delete', {'item': item.id}) }}" data-name="{{ item.title }}" class="close">x</button>
+                                <button type="button" data-url="{{ path('dashboard_delete', {'item': item.id}) }}" data-name="{{ item.title }}" class="close" data-toggle="modal" data-target="#delete-confirm-modal">x</button>
                             {% endif %}
                             <h4>{{ item.title }}</h4>
 

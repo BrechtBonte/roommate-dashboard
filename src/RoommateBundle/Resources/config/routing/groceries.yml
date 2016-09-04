@@ -1,0 +1,23 @@
+groceries_view:
+    path: /
+    methods: [GET]
+    defaults: { _controller: RoommateBundle:Groceries:view }
+
+groceries_buy:
+    path: /buy
+    methods: [POST]
+    defaults: { _controller: RoommateBundle:Groceries:buy }
+
+groceries_delete:
+    path: /delete/{item}
+    defaults: { _controller: RoommateBundle:Groceries:delete }
+
+groceries_edit:
+    path: /edit/{item}
+    methods: [POST]
+    defaults: { _controller: RoommateBundle:Groceries:edit }
+
+groceries_add:
+    path: /add
+    methods: [POST]
+    defaults: { _controller: RoommateBundle:Groceries:add }

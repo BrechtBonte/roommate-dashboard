@@ -38,6 +38,12 @@
                     <span>Events</span>
                 </a>
             </li>
+            <li>
+                <a href="{{ path('groceries_view') }}"{% if currentRoute starts with 'groceries' %} class="active"{% endif %}>
+                    <i class="fa fa-shopping-cart"></i>
+                    <span>Shopping list</span>
+                </a>
+            </li>
 
         </ul>
         <!-- sidebar menu end-->
