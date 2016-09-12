@@ -46,6 +46,11 @@ class BulletinItem
      */
     private $seenBy;
     /**
+     * @var Collection | PollOption[]
+     * @ORM\OneToMany(targetEntity="RoommateBundle\Entity\Bulletin\PollOption", mappedBy="item")
+     */
+    private $options;
+    /**
      * @var bool
      * @ORM\Column(type="boolean")
      */
@@ -59,6 +64,7 @@ class BulletinItem
         $this->description = $description;
         $this->dateAdded = new \DateTime();
         $this->seenBy = new ArrayCollection();
+        $this->options = new ArrayCollection();
         $this->deleted = false;
 
         $this->markAsSeen($owner);
@@ -103,6 +109,16 @@ class BulletinItem
     {
         foreach ($this->seenBy as $seenBy) {
             if ($seenBy->getRoommate() === $roommate) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public function hasRoommateVoted(Roommate $roommate)
+    {
+        foreach ($this->options as $option) {
+            if ($option->hasRoommateVoted($roommate)) {
                 return true;
             }
         }

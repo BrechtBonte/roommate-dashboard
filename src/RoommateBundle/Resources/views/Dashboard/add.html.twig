@@ -31,6 +31,29 @@
 
                     <div class="form-group">
                         <div class="col-sm-10 col-sm-offset-2">
+                            {{ form_widget(form.isPoll, {'attr': {'class': 'js-poll-checkbox'}}) }}
+                            {{ form_errors(form.isPoll) }}
+                        </div>
+                    </div>
+
+                    <div class="form-group js-poll-options-container">
+                        {{ form_label(form.options) }}
+                        <div class="col-sm-10">
+                            <div class="js-options-input-container" data-name="{{ form.options.vars.full_name }}">
+                                {% for option in form.options %}
+                                    {{ form_widget(option) }}
+                                {% endfor %}
+                            </div>
+                            <button type="button" class="btn btn-info btn-sm js-option-add-btn">
+                                <i class="glyphicon glyphicon-plus"></i>
+                                Add option
+                            </button>
+                            {{ form_errors(form.options) }}
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-sm-10 col-sm-offset-2">
                             <button type="submit" class="btn btn-primary">
                                 <i class="fa fa-floppy-o"></i>
                                 Save
@@ -49,4 +72,42 @@
         </div><!-- col-lg-12-->
     </div>
 
+{% endblock %}
+
+{% block javascript %}
+    {{ parent() }}
+    <script type="application/javascript">
+        $(function () {
+            var checkbox = $('.js-poll-checkbox'),
+                optionsContainer = $('.js-poll-options-container');
+
+            checkbox.on('change', function () {
+                if ($(this).is(':checked')) {
+                    optionsContainer.show();
+                } else {
+                    optionsContainer.hide();
+                }
+            });
+
+            if (checkbox.is(':checked')) {
+                optionsContainer.show();
+            } else {
+                optionsContainer.hide();
+            }
+        });
+    </script>
+    <script type="application/javascript">
+        $(function () {
+            var addBtn = $('.js-option-add-btn'),
+                container = $('.js-options-input-container');
+
+            addBtn.on('click', function (e) {
+                e.preventDefault();
+
+                container.append(
+                    '<input type="text" class="form-control" name="' + container.data('name') + '[]" />'
+                );
+            });
+        });
+    </script>
 {% endblock %}

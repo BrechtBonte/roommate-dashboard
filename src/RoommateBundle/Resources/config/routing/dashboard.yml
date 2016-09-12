@@ -2,6 +2,10 @@ dashboard:
     path: /
     defaults: { _controller: RoommateBundle:Dashboard:index }
 
+dashboard_vote:
+    path: /option/{option}
+    defaults: { _controller: RoommateBundle:Dashboard:vote }
+
 dashboard_delete:
     path: /delete/{item}
     defaults: { _controller: RoommateBundle:Dashboard:delete }

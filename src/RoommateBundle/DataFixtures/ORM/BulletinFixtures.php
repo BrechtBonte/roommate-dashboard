@@ -8,6 +8,7 @@ use Faker\Factory;
 use Faker\Generator;
 use RoommateBundle\DataFixtures\AbstractFixture;
 use RoommateBundle\Entity\Bulletin\BulletinItem;
+use RoommateBundle\Entity\Bulletin\PollOption;
 use RoommateBundle\Entity\Roommate\Roommate;
 
 class BulletinFixtures extends AbstractFixture implements DependentFixtureInterface
@@ -17,9 +18,19 @@ class BulletinFixtures extends AbstractFixture implements DependentFixtureInterf
         $faker = Factory::create();
 
         for ($i = 0; $i < 50; $i++) {
-            $manager->persist(
-                $this->createBulletinItem($faker)
-            );
+            $item = $this->createBulletinItem($faker);
+
+            if ($faker->boolean(75)) {
+                $this->createRoommateViews($item, $faker);
+            } else {
+                foreach (range(1, $faker->numberBetween(2, 8)) as $j) {
+                    $manager->persist(
+                        $this->createPollOption($item, $faker)
+                    );
+                }
+            }
+
+            $manager->persist($item);
         }
 
         $manager->flush();
@@ -38,6 +49,11 @@ class BulletinFixtures extends AbstractFixture implements DependentFixtureInterf
                 null
         );
 
+        return $item;
+    }
+
+    private function createRoommateViews(BulletinItem $item, Generator $faker)
+    {
         foreach ($this->getReferencesMatching('/^roommate-/') as $reference) {
             /** @var Roommate $roommate */
             $roommate = $this->getReference($reference);
@@ -48,8 +64,27 @@ class BulletinFixtures extends AbstractFixture implements DependentFixtureInterf
                 } catch (\DomainException $e) {}
             }
         }
+    }
 
-        return $item;
+    private function createPollOption(BulletinItem $item, Generator $faker)
+    {
+        $option = new PollOption(
+            $faker->word,
+            $item
+        );
+
+        foreach ($this->getReferencesMatching('/^roommate-/') as $reference) {
+            /** @var Roommate $roommate */
+            $roommate = $this->getReference($reference);
+
+            if ($faker->boolean(25)) {
+                try {
+                    $option->addVote($roommate);
+                } catch (\DomainException $e) {}
+            }
+        }
+
+        return $option;
     }
 
     public function getDependencies()

@@ -21,7 +21,7 @@
     <div class="row mt">
         {% for item in items %}
             <div class="col-xl-3 col-md-4 col-sm-6 mb">
-                <div class="showback{% if not item.seen %} not-seen{% endif %}">
+                <div class="showback{% if item.options|length == 0 and not item.seen %} not-seen{% endif %}">
                     <div class="row">
                         <div class="col-sm-12">
                             {% if app.user.roommateId == item.owner_id %}
@@ -33,8 +33,30 @@
                                 <p>{{ item.description }}</p>
                             {% endif %}
 
-                            {% if not item.seen %}
+                            {% if item.options|length == 0 and not item.seen %}
                                 <a href="{{ path('dashboard_acknowledge', {'item': item.id}) }}" class="btn btn-info btn-xs">Acknowledge</a>
+                            {% endif %}
+
+                            {% if item.options|length %}
+                                {% for option in item.options %}
+                                    {% if item.hasVoted %}
+                                        {% set percentage = option.voters|length / roommates|length * 100 %}
+                                        {{ option.name }} ({{ option.voters|length }})<br/>
+                                        <div class="progress progress-striped">
+                                            <div class="progress-bar progress-bar-{% if option.hasVoted %}success{% else %}info{% endif %}" role="progressbar" aria-valuenow="{{ option.voters|length }}" aria-valuemin="0" aria-valuemax="{{ roommates|length }}" style="width: {{ percentage }}%"></div>
+                                        </div>
+                                    {% else %}
+                                        <a href="{{ path('dashboard_vote', {'option': option.id}) }}" class="btn btn-round btn-info">
+                                            <i class="fa fa-check-square-o"></i>
+                                            {{ option.name }}
+                                            ({{ option.voters|length }})
+                                        </a>
+                                        {% if not loop.last %}
+                                            <br />
+                                            <br />
+                                        {% endif %}
+                                    {% endif %}
+                                {% endfor %}
                             {% endif %}
 
                             <div class="row">

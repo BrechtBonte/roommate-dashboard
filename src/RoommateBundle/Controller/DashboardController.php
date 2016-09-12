@@ -3,6 +3,7 @@
 namespace RoommateBundle\Controller;
 
 use RoommateBundle\Entity\Bulletin\BulletinItem;
+use RoommateBundle\Entity\Bulletin\PollOption;
 use RoommateBundle\Form\CreateBulletinItemType;
 use RoommateBundle\Provider\AuthenticatedUser;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -18,9 +19,11 @@ class DashboardController extends Controller
             $this->getCurrentHouseId(),
             $this->getCurrentRoommateId()
         );
+        $roommates = $this->get('roommate.repositories.roommate_repository')->fetchForHouse($this->getCurrentHouseId());
 
         return $this->render('RoommateBundle:Dashboard:view.html.twig', [
             'items' => $items,
+            'roommates' => $roommates,
         ]);
     }
 
@@ -80,8 +83,40 @@ class DashboardController extends Controller
             $form->get('title')->getData(),
             $form->get('description')->getData() ?: null
         );
+
+        if ($options = $form->get('options')->getData()) {
+            $optionRepo = $this->get('roommate.repositories.poll_option_repository');
+            foreach ($options as $option) {
+                $optionRepo->add(
+                    new PollOption($option, $item)
+                );
+            }
+        }
+
         $this->get('roommate.repositories.bulletin_item_repository')->add($item);
         $this->getDoctrine()->getManager()->flush();
+
+        return $this->redirectToRoute('dashboard');
+    }
+
+    public function voteAction($option, Request $request)
+    {
+        $option = $this->get('roommate.repositories.poll_option_repository')->findById(
+            $option,
+            $this->getCurrentHouseId()
+        );
+        if (!$option) {
+            throw new NotFoundHttpException();
+        }
+
+        $roommate = $this->get('roommate.repositories.roommate_repository')->find($this->getCurrentRoommateId());
+        $option->addVote($roommate);
+        $this->getDoctrine()->getManager()->flush();
+
+        $request->getSession()->getFlashBag()->add(
+            'success',
+            sprintf('Voted "%s" for "%s"', $option->getName(), $option->getItem()->getTitle())
+        );
 
         return $this->redirectToRoute('dashboard');
     }

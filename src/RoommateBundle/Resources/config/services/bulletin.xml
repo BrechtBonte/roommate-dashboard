@@ -15,6 +15,11 @@
             <argument>RoommateBundle\Entity\Bulletin\BulletinItem</argument>
         </service>
 
+        <service id="roommate.repositories.poll_option_repository" class="RoommateBundle\Repositories\PollOptionRepository">
+            <factory service="doctrine.orm.entity_manager" method="getRepository" />
+            <argument>RoommateBundle\Entity\Bulletin\PollOption</argument>
+        </service>
+
     </services>
 
 </container>
