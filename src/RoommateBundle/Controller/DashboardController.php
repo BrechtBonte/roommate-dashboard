@@ -24,6 +24,11 @@ class DashboardController extends Controller
         return $this->render('RoommateBundle:Dashboard:view.html.twig', [
             'items' => $items,
             'roommates' => $roommates,
+            'unansweredPolls' => $this->countUnansweredPolls(),
+            'currentCleaningJobs' => $this->getCurrentCleaningJobs(),
+            'upcomingEvents' => $this->countUpcomingEvents(),
+            'nearestEventDate' => $this->getNearestEventDate(),
+            'pendingGroceryItems' => $this->countPendingGroceryItems(),
         ]);
     }
 
@@ -119,6 +124,46 @@ class DashboardController extends Controller
         );
 
         return $this->redirectToRoute('dashboard');
+    }
+
+    private function countUnansweredPolls()
+    {
+        return $this->get('roommate.repositories.bulletin_item_dbal_repository')->countUnansweredPolls(
+            $this->getCurrentHouseId(),
+            $this->getCurrentRoommateId()
+        );
+    }
+
+    private function getCurrentCleaningJobs()
+    {
+        return $this->get('roommate.repositories.cleaning_job_dbal_repository')->getCurrentCleaningJobs(
+            $this->getCurrentRoommateId()
+        );
+    }
+
+    private function countUpcomingEvents()
+    {
+        return $this->get('roommate.repositories.event_repository')->countEventsAfter(
+            new \DateTime(),
+            $this->getCurrentHouseId()
+        );
+    }
+
+    private function getNearestEventDate()
+    {
+        return new \DateTime(
+            $this->get('roommate.repositories.event_repository')->getNearestEventAfter(
+                new \DateTime(),
+                $this->getCurrentHouseId()
+            )
+        );
+    }
+
+    private function countPendingGroceryItems()
+    {
+        return $this->get('roommate.repositories.grocery_item_repository')->countUnboughtItems(
+            $this->getCurrentHouseId()
+        );
     }
 
     private function getCurrentHouseId()

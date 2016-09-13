@@ -18,6 +18,60 @@
         </div>
     {% endfor %}
 
+    <div class="row mtbox">
+        <div class="col-md-2 col-sm-2 col-md-offset-2 box0">
+            <div class="box1">
+                <span class="li_bubble"></span>
+                <h3>{{ unansweredPolls }}</h3>
+            </div>
+            <p>There are {{ unansweredPolls }} polls you haven't voted on yet</p>
+        </div>
+        <div class="col-md-2 col-sm-2 box0">
+            <a href="{{ path('cleaning_jobs') }}">
+                <div class="box1">
+                    <span class="li_lab"></span>
+                    <h3>{{ currentCleaningJobs|length ? currentCleaningJobs|join(', ') : 'Free!' }}</h3>
+                </div>
+                <p>
+                    {% if currentCleaningJobs|length > 0 %}
+                        This week, you need to clean
+                        {% for job in currentCleaningJobs %}
+                            {{ job }}
+                            {%- if not loop.last %}
+                                {%- if loop.revindex == 1 %}
+                                    and
+                                {% else -%}
+                                    ,
+                                {% endif %}
+                            {% endif %}
+                        {% endfor %}
+                    {% else %}
+                        This week you are free!
+                    {% endif %}
+                </p>
+            </a>
+        </div>
+        <div class="col-md-2 col-sm-2 box0">
+            <a href="{{ path('events_browse') }}">
+                <div class="box1">
+                    <span class="li_calendar"></span>
+                    <h3>{{ upcomingEvents }}</h3>
+                </div>
+                <p>There are {{ upcomingEvents }} events coming up. Next one is {{ nearestEventDate|ago }}.</p>
+            </a>
+        </div>
+        <div class="col-md-2 col-sm-2 box0">
+            <a href="{{ path('groceries_view') }}">
+                <div class="box1">
+                    <span class="li_vallet"></span>
+                    <h3>{{ pendingGroceryItems }}</h3>
+                </div>
+                <p>There are {{ pendingGroceryItems }} items that need to be bought</p>
+            </a>
+        </div>
+
+    </div>
+
     <div class="row mt">
         {% for item in items %}
             <div class="col-xl-3 col-md-4 col-sm-6 mb">
@@ -76,6 +130,10 @@
 
     {% include 'RoommateBundle::_confirm_modal.html.twig' %}
 
+{% endblock %}
+
+{% block css %}
+    <link href="/assets/lineicons/style.css" rel="stylesheet">
 {% endblock %}
 
 {% block javascript %}

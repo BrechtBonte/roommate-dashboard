@@ -103,4 +103,31 @@ class BulletinItemDbalRepository
 
         return $options;
     }
+
+    public function countUnansweredPolls(HouseId $houseId, RoommateId $roommateId)
+    {
+        $qb = $this->connection->createQueryBuilder();
+        $qb ->select('item.id')
+            ->from('bulletin_item', 'item')
+            ->innerJoin('item', 'roommate', 'owner', 'item.owner_id = owner.id')
+            ->innerJoin('item', 'bulletin_poll_option', 'opt', 'opt.item_id = item.id')
+            ->leftJoin('item', 'bulletin_poll_vote', 'vote', implode(' AND ', [
+                'vote.option_id = opt.id',
+                'vote.voter_id = :roommateId',
+            ]))
+            ->where('owner.house_id = :houseId')
+            ->groupBy('item.id')
+            ->having('count(opt.id) > 0')
+            ->andHaving('count(vote.id) = 0')
+        ;
+
+        $countQb = $this->connection->createQueryBuilder();
+        $countQb->select('count(*)')
+            ->from('(' . $qb->getSQL() . ')', 'sub')
+            ->setParameter('houseId', (string)$houseId)
+            ->setParameter('roommateId', (string)$roommateId)
+        ;
+
+        return $countQb->execute()->fetchColumn();
+    }
 }

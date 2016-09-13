@@ -5,6 +5,7 @@ namespace RoommateBundle\Repositories;
 use Doctrine\ORM\EntityRepository;
 use RoommateBundle\Entity\Bulletin\PollOption;
 use RoommateBundle\Uuid\HouseId;
+use RoommateBundle\Uuid\RoommateId;
 
 class PollOptionRepository extends EntityRepository
 {

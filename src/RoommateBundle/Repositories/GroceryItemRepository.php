@@ -37,4 +37,18 @@ class GroceryItemRepository extends EntityRepository
 
         return $qb->getQuery()->getOneOrNullResult();
     }
+
+    public function countUnboughtItems(HouseId $houseId)
+    {
+        $qb = $this->createQueryBuilder('item');
+        $qb ->select('count(item.id)')
+            ->innerJoin('item.addedBy', 'roommate')
+            ->where('item.list IS NULL')
+            ->andWhere('IDENTITY(roommate.house) = :houseId')
+            ->orderBy('item.dateAdded', 'ASC')
+            ->setParameter('houseId', (string)$houseId)
+        ;
+
+        return $qb->getQuery()->getSingleScalarResult();
+    }
 }

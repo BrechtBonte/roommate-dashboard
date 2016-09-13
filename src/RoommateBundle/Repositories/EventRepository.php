@@ -51,4 +51,36 @@ class EventRepository extends EntityRepository
 
         return $qb->getQuery()->getOneOrNullResult();
     }
+
+    public function countEventsAfter(\DateTime $threshold, HouseId $houseId)
+    {
+        $qb = $this->createQueryBuilder('event');
+        $qb ->select('count(event.id)')
+            ->join('event.owner', 'owner')
+            ->andWhere('event.deleted = :deleted')
+            ->andWhere('IDENTITY(owner.house) = :houseId')
+            ->andWhere('coalesce(event.dateEnd, event.dateStart) >= :threshold')
+            ->setParameter('deleted', false)
+            ->setParameter('houseId', (string)$houseId)
+            ->setParameter('threshold', $threshold->format('Y-m-d H:i:s'))
+        ;
+
+        return $qb->getQuery()->getSingleScalarResult();
+    }
+
+    public function getNearestEventAfter(\DateTime $threshold, HouseId $houseId)
+    {
+        $qb = $this->createQueryBuilder('event');
+        $qb ->select('min(coalesce(event.dateEnd, event.dateStart))')
+            ->join('event.owner', 'owner')
+            ->andWhere('event.deleted = :deleted')
+            ->andWhere('IDENTITY(owner.house) = :houseId')
+            ->andWhere('coalesce(event.dateEnd, event.dateStart) >= :threshold')
+            ->setParameter('deleted', false)
+            ->setParameter('houseId', (string)$houseId)
+            ->setParameter('threshold', $threshold->format('Y-m-d H:i:s'))
+        ;
+
+        return $qb->getQuery()->getSingleScalarResult();
+    }
 }
