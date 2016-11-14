@@ -53,12 +53,12 @@ class EventController extends Controller
                 $dateStart = \DateTime::createFromFormat('Y-m-d H:i:s', sprintf(
                     '%s %s',
                     $form->get('single_date')->getData(),
-                    $form->get('time_start')
+                    $form->get('time_start')->getData()
                 ));
                 $dateEnd = \DateTime::createFromFormat('Y-m-d H:i:s', sprintf(
                     '%s %s',
                     $form->get('single_date')->getData(),
-                    $form->get('time_end')
+                    $form->get('time_end')->getData()
                 ));
                 break;
             case CreateEventType::TYPE_MULTIPLE_DAYS:
