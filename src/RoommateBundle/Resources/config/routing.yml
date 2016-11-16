@@ -22,6 +22,10 @@ groceries:
     prefix: /groceries
     resource: "@RoommateBundle/Resources/config/routing/groceries.yml"
 
+debt:
+    prefix: /debt
+    resource: "@RoommateBundle/Resources/config/routing/debt.yml"
+
 authentication:
     prefix: /
     resource: "@RoommateBundle/Resources/config/routing/authentication.yml"

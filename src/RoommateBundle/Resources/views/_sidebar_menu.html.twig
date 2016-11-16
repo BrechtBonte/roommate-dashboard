@@ -44,6 +44,12 @@
                     <span>Shopping list</span>
                 </a>
             </li>
+            <li>
+                <a href="{{ path('debt_overview') }}"{% if currentRoute starts with 'debt' %} class="active"{% endif %}>
+                    <i class="fa fa-credit-card"></i>
+                    <span>Debt</span>
+                </a>
+            </li>
 
         </ul>
         <!-- sidebar menu end-->

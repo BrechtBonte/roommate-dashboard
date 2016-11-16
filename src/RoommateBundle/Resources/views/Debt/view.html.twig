@@ -1,0 +1,112 @@
+{% extends "RoommateBundle::_base.html.twig" %}
+{% import "RoommateBundle:Debt:_macros.html.twig" as _format %}
+
+{% block pageTitle %}Debt - {% endblock %}
+
+{% block content %}
+
+    <div class="row">
+        <div class="col-sm-9">
+
+            <h3><i class="fa fa-angle-right"></i> Debt: {{ _format.money(3880) }}</h3>
+
+            {% for flashMessage in app.session.flashbag.get('success') %}
+                <div class="alert alert-success">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    {{ flashMessage }}
+                </div>
+            {% endfor %}
+
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="showback">
+                        <form method="post">
+                            <div class="row">
+                                <div class="col-md-2">
+                                    {{ form_widget(form.multiplier) }}
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="input-group{% if form_errors(form.amount) %} has-error{% endif %}">
+                                        <div class="input-group-addon">&euro;</div>
+                                        <input type="text" class="form-control" name="{{ form.amount.vars.full_name }}" placeholder="Amount *" value="{{ form.amount.vars.value }}" />
+                                    </div>
+                                </div>
+                                <div class="col-md-2{% if form_errors(form.to) %} has-error{% endif %}">
+                                    <input type="text" class="form-control js-to" name="{{ form.to.vars.full_name }}" placeholder="To *" autocomplete="off" value="{{ form.to.vars.value }}" />
+                                </div>
+                                <div class="col-md-4{% if form_errors(form.description) %} has-error{% endif %}">
+                                    {{ form_widget(form.description, {'attr': {'placeholder': 'Description'}}) }}
+                                </div>
+                                <div class="col-md-2">
+                                    <button type="submit" class="btn btn-primary btn-block">
+                                        <i class="fa fa-plus"></i>
+                                        Add
+                                    </button>
+                                </div>
+                            </div>
+                            {{ form_widget(form._token) }}
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                {% for contact in contacts %}
+                    <div class="col-sm-12">
+                        <div class="showback js-contact" style="cursor: pointer">
+                            <div class="row">
+                                <div class="col-sm-10">
+                                    <h4>{{ contact.name }}</h4>
+                                </div>
+                                <div class="col-sm-2">
+                                    <p class="h4 pull-right">{{ _format.money(contact.total) }}</p>
+                                </div>
+                            </div>
+                            <div class="js-contact-transactions" style="display:none" data-url="{{ path('debt_contact', {'contact': contact.name}) }}"></div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+
+        </div>
+
+        <div class="col-lg-3 ds">
+            <h3>Recent transactions</h3>
+
+            {% for transaction in recentTransactions %}
+                <div class="desc">
+                    <h4>
+                        {{ transaction.name }}:
+                        {{ _format.money(transaction.amount) }}
+                    </h4>
+                    <p>{{ transaction.dateAdded|date('d/m/Y H:i:s') }}</p>
+                    {% if transaction.description|default('') %}
+                        <p>{{ transaction.description }}</p>
+                    {% endif %}
+                </div>
+            {% endfor %}
+        </div>
+
+    </div>
+
+{% endblock %}
+
+{% block javascript %}
+    <script src="/assets/libs/bootstrap3-typeahead.min.js"></script>
+    <script type="application/javascript">
+        $(function () {
+            $('.js-to').typeahead({source: {{ contactNames|json_encode|raw }}});
+
+            $('.js-contact').on('click', function (e) {
+                e.preventDefault();
+                var transactionContainer = $(this).find('.js-contact-transactions');
+
+                if (!transactionContainer.data('loaded')) {
+                    transactionContainer.load(transactionContainer.data('url'));
+                    transactionContainer.data('loaded', true);
+                }
+                transactionContainer.toggle();
+            });
+        })
+    </script>
+{% endblock %}

@@ -1,0 +1,13 @@
+debt_overview:
+  path: /
+  methods: [GET]
+  defaults: { _controller: RoommateBundle:Debt:view }
+
+debt_add:
+  path: /
+  methods: [POST]
+  defaults: { _controller: RoommateBundle:Debt:add }
+
+debt_contact:
+  path: /{contact}
+  defaults: { _controller: RoommateBundle:Debt:contact }

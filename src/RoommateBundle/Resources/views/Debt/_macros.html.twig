@@ -1,0 +1,7 @@
+{% macro money(money) -%}
+    <span class="text-{{ money < 0 ? 'danger' : money == 0 ? 'danger' : 'success' }}">
+        {% if not money == 0 %}{{ money < 0 ? '-' : '+' }}{% endif %}
+        &euro;
+        {{ (money|abs / 100)|number_format(2, ',', '.') }}
+    </span>
+{%- endmacro %}

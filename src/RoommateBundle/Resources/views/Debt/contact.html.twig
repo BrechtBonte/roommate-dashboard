@@ -1,0 +1,16 @@
+{% import "RoommateBundle:Debt:_macros.html.twig" as _format %}
+<hr />
+
+{% for transaction in transactions %}
+    <div class="row">
+        <div class="col-sm-3">
+            <p>{{ transaction.dateAdded|date('d/m/Y H:i:s') }}</p>
+        </div>
+        <div class="col-sm-7">
+            <p>{{ transaction.description }}</p>
+        </div>
+        <div class="col-sm-2">
+            <p class="pull-right">{{ _format.money(transaction.amount) }}</p>
+        </div>
+    </div>
+{% endfor %}
