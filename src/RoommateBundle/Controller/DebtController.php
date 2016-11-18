@@ -21,6 +21,7 @@ class DebtController extends Controller
         $contacts = $transactionRepo->fetchContacts($roommateId);
 
         $contactNames = array_column($contacts, 'name');
+        $totalBalance = $transactionRepo->fetchTotalBalance($roommateId);
 
         $form = $this->createForm(TransactionType::class);
 
@@ -28,6 +29,7 @@ class DebtController extends Controller
             'recentTransactions' => $recentTransactions,
             'contacts' => $contacts,
             'contactNames' => $contactNames,
+            'totalBalance' => $totalBalance,
             'form' => $form->createView(),
         ]);
     }
@@ -41,6 +43,7 @@ class DebtController extends Controller
         $contacts = $transactionRepo->fetchContacts($roommateId);
 
         $contactNames = array_column($contacts, 'name');
+        $totalBalance = $transactionRepo->fetchTotalBalance($roommateId);
 
         $form = $this->createForm(TransactionType::class);
         $form->handleRequest($request);
@@ -50,6 +53,7 @@ class DebtController extends Controller
                 'recentTransactions' => $recentTransactions,
                 'contacts' => $contacts,
                 'contactNames' => $contactNames,
+                'totalBalance' => $totalBalance,
                 'form' => $form->createView(),
             ]);
         }

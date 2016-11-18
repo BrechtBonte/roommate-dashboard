@@ -26,6 +26,17 @@ class TransactionRepository extends EntityRepository
         return $qb->getQuery()->getArrayResult();
     }
 
+    public function fetchTotalBalance(RoommateId $roommateId) : int
+    {
+        $qb = $this->createQueryBuilder('trans');
+        $qb ->select('coalesce(sum(trans.amount), 0)')
+            ->andWhere('IDENTITY(trans.roommate) = :roommateId')
+            ->setParameter('roommateId', (string)$roommateId)
+        ;
+
+        return $qb->getQuery()->getSingleScalarResult();
+    }
+
     public function fetchTransactionsForContact(RoommateId $roommateId, string $contact) : array
     {
         $qb = $this->createQueryBuilder('trans');

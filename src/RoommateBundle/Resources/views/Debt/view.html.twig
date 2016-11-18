@@ -8,7 +8,7 @@
     <div class="row">
         <div class="col-sm-9">
 
-            <h3><i class="fa fa-angle-right"></i> Debt: {{ _format.money(3880) }}</h3>
+            <h3><i class="fa fa-angle-right"></i> Debt: {{ _format.money(totalBalance) }}</h3>
 
             {% for flashMessage in app.session.flashbag.get('success') %}
                 <div class="alert alert-success">
